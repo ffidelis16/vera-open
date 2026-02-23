@@ -1,0 +1,118 @@
+# ============================================================
+# VERA OPEN — Configuration
+# ============================================================
+# Copy this file to config.yaml and fill in your values.
+# Lines starting with # are comments and can be removed.
+# ============================================================
+
+# --- Identity ---
+name: "Vera"
+language: "pt-BR"           # pt-BR, en-US, es-ES
+timezone: "America/Sao_Paulo"
+
+# --- AI Persona ---
+# Controls the tone and style of your daily briefings.
+# Presets: "executive" (direct, metrics-focused), "coach" (supportive, growth-oriented)
+# Or use "custom" and provide your own prompt below.
+persona:
+  preset: "executive"
+  # custom_prompt: "You are a concise productivity advisor..."
+
+# --- Schedule ---
+# Times in your local timezone. Used for urgency calculations.
+schedule:
+  daily_briefing: "09:00"
+  weekly_review_day: "saturday"
+  weekly_review_time: "10:00"
+
+# ============================================================
+# DATABASES — Connect your Notion databases
+# ============================================================
+# To find a database_id:
+#   1. Open the database as a full page in Notion
+#   2. Copy the URL: notion.so/<workspace>/<database_id>?v=...
+#   3. The database_id is the 32-character hex string before ?v=
+#
+# IMPORTANT: Share each database with your Notion integration!
+# ============================================================
+
+# --- Tasks Database (REQUIRED) ---
+# Your main task/to-do database. Must have at minimum:
+#   - A title property (task name)
+#   - A status property (select: e.g. "To Do", "Doing", "Done")
+tasks:
+  database_id: ""            # REQUIRED — paste your database ID here
+  # Map your property names below. Defaults work with Vera's Notion template.
+  fields:
+    title: "Name"
+    status: "Status"
+    deadline: "Deadline"
+    priority: "Priority"
+    urgency: "Urgência Real"   # Vera writes to this field (number 0-100)
+    project: "Project"         # Optional — leave empty string to skip
+    tags: "Tags"               # Optional — leave empty string to skip
+  # Map your status values
+  status_groups:
+    active: ["To Do", "Doing", "In Progress"]
+    done: ["Done", "Complete"]
+    blocked: ["Blocked", "Waiting"]
+
+# --- Daily Check Database (REQUIRED) ---
+# Where you log daily check-in dimensions (energy, mood, focus, etc.)
+# Each row = one day. Vera reads this to personalize your briefing.
+daily_check:
+  enabled: true
+  database_id: ""            # REQUIRED — paste your database ID here
+  fields:
+    date: "Date"
+    energy: "Energy"          # Number 1-5
+    mood: "Mood"              # Number 1-5
+    focus: "Focus"            # Number 1-5
+    sleep_quality: "Sleep"    # Number 1-5
+    notes: "Notes"            # Rich text — optional
+
+# --- Pipeline Database (OPTIONAL) ---
+# Track deals, leads, freelance prospects, job applications, etc.
+# Vera can include pipeline status in your briefing.
+pipeline:
+  enabled: false
+  database_id: ""
+  fields:
+    title: "Name"
+    status: "Status"
+    value: "Value"
+    next_action: "Next Action"
+    deadline: "Deadline"
+  status_groups:
+    active: ["Lead", "Proposal", "Negotiation"]
+    won: ["Won", "Closed"]
+    lost: ["Lost"]
+
+# --- Energy Timing Database (OPTIONAL) ---
+# Map your energy patterns throughout the day.
+# Vera uses this to suggest optimal task scheduling.
+energy_timing:
+  enabled: false
+  database_id: ""
+  fields:
+    time_block: "Time Block"   # e.g. "Morning", "Afternoon", "Evening"
+    energy_level: "Energy"     # Number 1-5
+    best_for: "Best For"       # e.g. "Deep work", "Admin", "Creative"
+
+# --- Scoring & Methodology ---
+scoring:
+  # How urgency is calculated (0-100 scale)
+  urgency_weights:
+    deadline_proximity: 0.4    # How close is the deadline?
+    priority_level: 0.3        # User-set priority
+    staleness: 0.2             # How long since last status change?
+    dependency_count: 0.1      # How many other tasks depend on this?
+  # Streak tracking
+  streak:
+    enabled: true
+    metric: "tasks_completed"  # What counts toward streak?
+
+# --- Debug ---
+debug:
+  dry_run: false               # If true, doesn't send Telegram messages
+  verbose: false               # If true, prints detailed logs

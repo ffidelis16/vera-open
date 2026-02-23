@@ -1,0 +1,43 @@
+# ============================================================
+# Vera Open — Daily Briefing
+# ============================================================
+# Runs every day at 9:00 AM BRT (12:00 UTC).
+# Also triggerable manually via workflow_dispatch.
+# ============================================================
+
+name: Daily Briefing
+
+on:
+  schedule:
+    # 12:00 UTC = 09:00 BRT (UTC-3)
+    # Adjust if your timezone differs.
+    # GitHub Actions cron can delay 5-20 minutes — this is expected.
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+    # Manual trigger for testing
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"  # Caches pip packages based on requirements.txt hash
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily briefing
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m src.main --mode daily
