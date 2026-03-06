@@ -50,16 +50,8 @@ def test_cli_no_args_shows_help():
     assert "briefing" in result.output
 
 
-def test_cli_briefing_placeholder():
-    """Briefing roda com placeholder (Sessão 2)."""
+def test_cli_briefing_sem_config():
+    """Briefing sem config.yaml retorna erro."""
     result = runner.invoke(app, ["briefing"])
-    assert result.exit_code == 0
-    assert "Sessão 2" in result.output
-
-
-def test_cli_briefing_com_flags():
-    """Briefing aceita --force e --dry-run."""
-    result = runner.invoke(app, ["briefing", "--force", "--dry-run"])
-    assert result.exit_code == 0
-    assert "force=True" in result.output
-    assert "dry_run=True" in result.output
+    assert result.exit_code == 1
+    assert "config" in result.output.lower()
