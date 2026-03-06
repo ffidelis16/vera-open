@@ -76,6 +76,17 @@ class DomainConfig(BaseModel):
     fields: dict[str, Any] = Field(default_factory=dict)
 
 
+class GoogleCalendarConfig(BaseModel):
+    enabled: bool = False
+    credentials_env: str = "GOOGLE_CREDENTIALS"
+    oauth_token_env: str = "GOOGLE_OAUTH_TOKEN"
+    calendar_ids: list[str] = Field(default_factory=lambda: ["primary"])
+
+
+class IntegrationsConfig(BaseModel):
+    google_calendar: GoogleCalendarConfig = Field(default_factory=GoogleCalendarConfig)
+
+
 class DebugConfig(BaseModel):
     dry_run: bool = False
     verbose: bool = False
@@ -93,6 +104,7 @@ class VeraConfig(BaseModel):
     delivery: DeliveryConfig = Field(default_factory=DeliveryConfig)
     schedule: ScheduleConfig = Field(default_factory=ScheduleConfig)
     persona: PersonaConfig = Field(default_factory=PersonaConfig)
+    integrations: IntegrationsConfig = Field(default_factory=IntegrationsConfig)
     domains: dict[str, DomainConfig] = Field(default_factory=dict)
     debug: DebugConfig = Field(default_factory=DebugConfig)
 
