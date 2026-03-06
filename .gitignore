@@ -4,6 +4,7 @@ config.yaml
 
 # Personal data
 workspace/USER.md
+workspace/AGENT.md
 
 # Python
 __pycache__/
@@ -34,3 +35,6 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+
+# uv
+uv.lock

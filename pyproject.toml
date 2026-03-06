@@ -4,34 +4,47 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "vera-open"
-version = "1.0.0"
-description = "Morning OS for Notion users — AI-powered daily briefings via Telegram"
+version = "2.0.0"
+description = "AI-native Life Operating System — daily briefings, task management, and life domains"
 readme = "README.md"
-license = {text = "MIT"}
+license = {text = "Apache-2.0"}
 requires-python = ">=3.11"
-keywords = ["notion", "telegram", "ai", "briefing", "productivity"]
+keywords = ["ai", "briefing", "productivity", "life-os", "notion", "telegram"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: End Users/Desktop",
-    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Office/Business :: Scheduling",
 ]
 dependencies = [
     "aiohttp>=3.9.0",
-    "pyyaml>=6.0",
-    "pydantic>=2.0",
+    "aiolimiter>=1.1.0",
     "anthropic>=0.40.0",
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "tenacity>=8.2.0",
+    "typer>=0.9.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21",
 ]
 
 [project.urls]
-Homepage = "https://github.com/you/vera-open"
-Issues = "https://github.com/you/vera-open/issues"
+Homepage = "https://github.com/ffidelis16/vera-open"
+Issues = "https://github.com/ffidelis16/vera-open/issues"
+
+[project.scripts]
+vera = "vera.cli:app"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["src*"]
+include = ["vera*"]
 
 [tool.ruff]
 line-length = 100
