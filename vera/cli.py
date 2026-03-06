@@ -51,9 +51,43 @@ def briefing(
     ),
 ) -> None:
     """Gera e envia o briefing diário."""
-    # Implementação na Sessão 2
-    typer.echo("Briefing será implementado na Sessão 2.")
-    typer.echo(f"  force={force}, dry_run={dry_run}")
+    from vera.config import load_config
+    from vera.modes.briefing import run
+
+    try:
+        config = load_config()
+    except (FileNotFoundError, ValueError) as e:
+        typer.echo(f"Erro ao carregar config: {e}")
+        raise typer.Exit(code=1)
+
+    # Cria backend
+    try:
+        backend = _create_backend(config)
+    except Exception as e:
+        typer.echo(f"Erro ao criar backend: {e}")
+        raise typer.Exit(code=1)
+
+    # Cria LLM provider
+    try:
+        llm = _create_llm_provider(config, config.llm.default)
+    except Exception as e:
+        typer.echo(f"Erro ao criar LLM provider: {e}")
+        raise typer.Exit(code=1)
+
+    # Dry run também vem do config
+    effective_dry_run = dry_run or config.debug.dry_run
+
+    try:
+        resultado = run(config, backend, llm, force=force, dry_run=effective_dry_run)
+
+        # Envia no Telegram se não dry_run
+        if resultado and not effective_dry_run:
+            _enviar_telegram(config, resultado)
+
+    except Exception as e:
+        typer.echo(f"Erro crítico: {e}")
+        _notificar_erro_telegram(config, str(e))
+        raise typer.Exit(code=1)
 
 
 # ─── Validate ────────────────────────────────────────────────────────────────
@@ -153,6 +187,56 @@ def validate() -> None:
         typer.echo(f"    - {name}: {status} ({collection})")
 
     typer.echo("\nValidação completa!")
+
+
+def _create_backend(config):
+    """Cria instância de StorageBackend a partir do config."""
+    if config.backend.type == "notion":
+        from vera.backends.notion import NotionBackend
+
+        return NotionBackend(token_env=config.backend.notion.token_env)
+    else:
+        raise ValueError(f"Backend '{config.backend.type}' não suportado")
+
+
+def _enviar_telegram(config, mensagem: str) -> None:
+    """Envia mensagem no Telegram (placeholder — Sessão 3 implementa completo)."""
+    tg_token = os.environ.get(config.delivery.telegram.bot_token_env, "")
+    tg_chat_id = os.environ.get(config.delivery.telegram.chat_id_env, "")
+
+    if not tg_token or not tg_chat_id:
+        print("   [telegram] Não configurado — pulando envio.")
+        return
+
+    import aiohttp
+
+    async def _send():
+        url = f"https://api.telegram.org/bot{tg_token}/sendMessage"
+        payload = {
+            "chat_id": tg_chat_id,
+            "text": mensagem[:4096],
+            "parse_mode": "Markdown",
+        }
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=payload) as resp:
+                if resp.status == 200:
+                    print("   [telegram] Briefing enviado!")
+                else:
+                    text = await resp.text()
+                    print(f"   [telegram] Erro {resp.status}: {text[:200]}")
+
+    try:
+        asyncio.run(_send())
+    except Exception as e:
+        print(f"   [telegram] Falha ao enviar: {e}")
+
+
+def _notificar_erro_telegram(config, erro: str) -> None:
+    """Notifica erro no Telegram."""
+    try:
+        _enviar_telegram(config, f"VERA ERRO: {erro[:500]}")
+    except Exception:
+        pass
 
 
 def _create_llm_provider(config, provider_name: str):
