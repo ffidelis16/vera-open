@@ -1,40 +1,31 @@
-# [Seu Nome] — Perfil Operacional
+# [Seu Nome] -- Perfil Operacional
 
 <!--
-Este arquivo é opcional mas poderoso.
-
-Escreva sobre você de forma que a Vera entenda quem você é e o que importa.
-A Vera injeta este conteúdo no contexto da IA todo dia, para que o briefing
-pareça escrito por alguém que te conhece de verdade.
-
-Copie para USER.md e edite. USER.md é gitignored por padrão.
-Delete estes comentários quando terminar.
+Este arquivo e opcional mas poderoso.
+Copie para workspace/USER.md e preencha. USER.md e gitignored.
+A Vera injeta este conteudo no contexto da IA todo dia.
+Delete estes comentarios quando terminar.
 -->
 
-## Situação atual
-<!-- Descreva sua situação profissional atual -->
-<!-- Exemplo: "Em recolocação desde janeiro. Renda: freelas + produto digital." -->
+## Situacao atual
+[Ex: "Em recolocacao desde janeiro. Trabalhando em freelas enquanto busco posicao fixa em produto."]
 
-## Contexto profissional
-<!-- Área de atuação, experiência, stack/ferramentas -->
-<!-- Exemplo: "Product Marketing, 8 anos. Stack: HubSpot, GA4, Figma, Notion." -->
+## Prioridades do mes
+1. [Ex: "Fechar 3 entrevistas finais"]
+2. [Ex: "Lancar MVP do produto digital"]
+3. [Ex: "Manter rotina de exercicios 4x/semana"]
 
-## Padrão de comportamento (seja honesto)
-<!-- Como você funciona no dia a dia — a Vera precisa saber -->
-<!-- Exemplo: "Planejo bem mas execução oscila. Procrastino em blocos grandes." -->
-<!-- "Pico de energia: noite. Rotina: acordo ~10h." -->
+## Contexto relevante
+- Horario: [Ex: "Acordo as 9h, pico de energia a noite"]
+- Ferramentas: [Ex: "Notion, VS Code, Figma, Slack"]
+- Restricoes: [Ex: "Reunioes so a tarde. Terca e quinta sao dias de foco."]
 
-## Prioridades este mês
-<!-- 1. ... -->
-<!-- 2. ... -->
-<!-- 3. ... -->
+## O que NAO quero ouvir da Vera
+- [Ex: "Frases motivacionais genericas"]
+- [Ex: "Cobranca sobre tarefas que ja sei que estao atrasadas sem sugerir acao"]
+- [Ex: "Qualquer coisa sobre 'equilibrio vida-trabalho'"]
 
-## O que a Vera deve priorizar
-<!-- Exemplo: -->
-<!-- - Tarefas com deadline vencido = sempre no topo -->
-<!-- - Projetos sem follow-up há 7+ dias = risco -->
-<!-- - Tarefas paradas = precisam de decisão, não cobrança infinita -->
-
-## Preferências de comunicação
-<!-- Como você quer que a Vera fale com você -->
-<!-- Exemplo: "Direta, sem enrolação. Cobra quando precisa. Avisa deadline cedo." -->
+## O que QUERO ouvir da Vera
+- [Ex: "Alertas sobre deadlines que estou esquecendo"]
+- [Ex: "Quando uma tarefa esta parada ha muito tempo, sugerir o que fazer com ela"]
+- [Ex: "Reconhecer quando tive uma boa semana antes de cobrar"]
