@@ -68,7 +68,7 @@ For the full setup guide including Telegram bot creation and GitHub Actions depl
 
 Vera works with any Notion setup as long as you have a Tasks database. If you're starting fresh, duplicate the template:
 
-**[Duplicate the Vera template](LINK_AQUI)**
+**[Duplicate the Vera template](https://same-tiger-545.notion.site/Vera-Life-OS-31b487bf2603816aba1df400b86dbde3)**
 
 | Database | Purpose | Required? |
 |---|---|---|
